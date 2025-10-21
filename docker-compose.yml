@@ -1,0 +1,6 @@
+services:
+  takethetab-server:
+    image: ${DOCKER_REGISTRY-}takethetabserver
+    build:
+      context: ProjectFolder
+      dockerfile: Dockerfile
