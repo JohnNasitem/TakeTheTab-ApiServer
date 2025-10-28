@@ -6,6 +6,7 @@
 //***********************************************************************************
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using takethetab_server.Application;
@@ -74,23 +75,21 @@ namespace takethetab_server.Web
             {
                 options.AddPolicy("AllowWebsite", policy =>
                 {
-                    //policy.WithOrigins(
-                    //        "https://www.takethetab.com",
-                    //        "https://takethetab.com"
-                    //      )
-                    //      .AllowCredentials()
-                    //      .AllowAnyHeader()
-                    //      .AllowAnyMethod();
-                    policy.SetIsOriginAllowed(_ => true)  // Allow any origin
-                              .AllowCredentials()
-                              .AllowAnyHeader()
-                              .AllowAnyMethod();
+                    policy.WithOrigins(
+                            "https://takethetab.com",
+                            "https://www.takethetab.com"
+                          )
+                          .AllowAnyMethod()
+                          .AllowAnyHeader()
+                          .AllowCredentials()
+                          .SetPreflightMaxAge(TimeSpan.FromMinutes(10));
                 });
             });
 
             var app = builder.Build();
-            app.UseRouting();
+
             app.UseCors("AllowWebsite");
+            app.UseRouting();
 
             // Set up JWT Bearer
             app.UseAuthentication();

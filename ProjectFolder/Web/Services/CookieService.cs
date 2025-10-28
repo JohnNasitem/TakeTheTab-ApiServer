@@ -75,8 +75,9 @@ namespace takethetab_server.Web.Services
             {
                 HttpOnly = true,                                                            // JS cannot read it
                 Secure = true,                                                              // only sent over HTTPS
-                // TODO: Change to SameSiteMode.Strict in prod (server api should have the same url as website
-                SameSite = SameSiteMode.None,                                               // prevents CSRF in most cases
+                SameSite = SameSiteMode.Lax,                                             // prevents CSRF in most cases
+                Domain = ".takethetab.com",
+                Path = "/",
                 Expires = DateTime.UtcNow.AddDays(shouldClearCookie ? -1 : config.Value.RefreshTokenLifeSpanDays)
             });
 
@@ -84,8 +85,9 @@ namespace takethetab_server.Web.Services
             {
                 HttpOnly = true,                                                            // JS cannot read it
                 Secure = true,                                                              // only sent over HTTPS
-                // TODO: Change to SameSiteMode.Strict in prod (server api should have the same url as website
-                SameSite = SameSiteMode.None,                                               // prevents CSRF in most cases
+                SameSite = SameSiteMode.Lax,                                             // prevents CSRF in most cases
+                Domain = ".takethetab.com",
+                Path = "/",
                 Expires = DateTime.UtcNow.AddHours(shouldClearCookie ? -1 : config.Value.AccessTokenLifeSpanHours)
             });
         }
