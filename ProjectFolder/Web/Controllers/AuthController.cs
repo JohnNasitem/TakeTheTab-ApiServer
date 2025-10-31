@@ -31,19 +31,6 @@ namespace takethetab_server.Web.Controllers
             if (!Request.Cookies.TryGetValue("refreshToken", out var refreshToken))
                 return Unauthorized();
 
-            // Dont refresh tokens if access token is still valid
-            if (Request.Cookies.TryGetValue("accessToken", out var accessToken))
-            {
-                DateTime? expiration = tokenSerivce.GetAccessTokenExpiry(accessToken);
-
-                if (expiration != null && expiration >= DateTime.Now)
-                    return Ok(new GenericResponseDto()
-                    {
-                        ActionSuccess = true,
-                        ErrorMessage = null
-                    });
-            }
-
             RefreshToken? token = await tokenSerivce.ValidateRefreshToken(refreshToken);
             bool isTokenValid = token != null;
 
