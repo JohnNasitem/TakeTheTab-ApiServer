@@ -48,7 +48,7 @@ namespace takethetab_server.Web.Controllers
                 UserId = success ? user!.Id : null,
                 UserDisplayName = success ? user!.DisplayName : null,
                 UserEmail = success ? user!.Email : null,
-                Events = events?.ToDictionary(e => e.Id, e =>
+                Events = events?.OrderBy(e => e.Date).ToDictionary(e => e.Id, e =>
                     new FetchUserResponseEvent()
                     {
                         EventName = e.Name,
